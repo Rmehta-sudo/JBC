@@ -28,6 +28,6 @@ batchSchema.pre('save', function (next){
     next()
 })
 
-const Batches = new mongoose.model('batches',batchScehma)
+const Batches = new mongoose.model('batches',batchSchema)
 module.exports = Batches
 

@@ -38,6 +38,7 @@ const {
 } = require('./utils/batchUtils')
 
 // MongoDB connection and server start
+// to start use ::: sudo systemctl start mongod
 mongoose.connect("mongodb://localhost:27017/jbcDB", {
     authSource: "admin",
     user: process.env.user,
