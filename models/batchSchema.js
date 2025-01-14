@@ -1,5 +1,6 @@
 const mongoose = require('mongoose')
 const AutoIncrement = require('mongoose-sequence')(mongoose)
+const moment = require('moment')
 
 const rawMaterialSchema = new mongoose.Schema({
     stockname : String,
@@ -13,10 +14,11 @@ const batchSchema = new mongoose.Schema({
     batchname : String,
     numdrums : Number,
     drums    : [Number],
+    date     : Date,
     rawMaterials: {type:[rawMaterialSchema], default : []},
     remarks : {type: String , default:" " },
-    completed: {type: [Boolean], default:false},
-    drumsDispatched : [Number],
+    drumsCompleted: {type: [Number],default : []},
+    drumsDispatched : {type: [Number],default : []},
     sentFully : {type:Boolean, default: false},
     totalWeight:{type:Number, default : 0}
 })

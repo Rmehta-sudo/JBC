@@ -21,7 +21,7 @@ async function addNewStockItem(stockmodel, stockname) {
 // Function to get all stock items
 async function getAllStockItems(stockmodel){
     try{
-        allItems = await stockmodel.find()
+        let allItems = await stockmodel.find()
         console.log("Returning all items ")
         return allItems
     }
@@ -33,7 +33,7 @@ async function getAllStockItems(stockmodel){
 // delete stock item
 async function deleteStockItem(stockmodel,stockname){
     try{
-        result = await stockmodel.deleteOne({name:stockname})
+        let result = await stockmodel.deleteOne({name:stockname})
         if(result.deletedCount === 0){
             console.log("No such item found")
         }
@@ -62,8 +62,8 @@ async function getStockItem(stockmodel,stockname){
 async function addToLot(stockmodel,stockname,lotname,qnty){
     lotname = String(lotname)
     try{
-        const stock = await stockmodel.findOne({name:stockname})
-        const lots = stock.lots
+        let stock = await stockmodel.findOne({name:stockname})
+        let lots = stock.lots
 
         if(!lots){
             // add new lot to lots
@@ -93,8 +93,8 @@ async function addToLot(stockmodel,stockname,lotname,qnty){
 async function removeFromLot(stockmodel,stockname,lotname,qnty){
     lotname = String(lotname)
     try{
-        const stock = await stockmodel.findOne({name:stockname})
-        const lot = stock.lots.find(lot => lot.lotname === lotname)
+        let stock = await stockmodel.findOne({name:stockname})
+        let lot = stock.lots.find(lot => lot.lotname === lotname)
 
         if(!lot){
             // add new lot to lots
@@ -115,7 +115,7 @@ async function removeFromLot(stockmodel,stockname,lotname,qnty){
 async function deleteLot(stockmodel,stockname,lotname){
     lotname = String(lotname)
     try{
-        const stock = await stockmodel.findOne({name:stockname})
+        let stock = await stockmodel.findOne({name:stockname})
         console.log(stock)
         if(!stock){
             console.log("stock doesn't exist")
