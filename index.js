@@ -28,6 +28,8 @@ mongoose.connection.once('open', () => {
 }) // to check for the initial connection
 
 
+
+
 app.listen(port,()=>{
     console.log("Connected to localhost:3000")  
 })
