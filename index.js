@@ -1,21 +1,21 @@
-const express = require("express");
-const app = express();
-const port = 3000;
+const express = require("express")
+const app = express()
+const port = 3000
 
-require('dotenv').config();
+require("dotenv").config()
 
-const mongoose = require('mongoose');
-const AutoIncrement = require('mongoose-sequence')(mongoose);
+const mongoose = require("mongoose")
 
 // Middleware setup
-app.set('views', __dirname + '/views'); // Set the correct path for views directory
-app.set('view engine', 'ejs');
-app.use(express.static('public')); // For CSS or JS files
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
+app.set("views", __dirname + "/views") // Set the correct path for views directory
+app.set("view engine", "ejs")
+app.use(express.static("public")) // For CSS or JS files
+app.use(express.urlencoded({ extended: true }))
+app.use(express.json())
 
 // Import models and utilities
-const Stock = require('./models/stockSchema');
+const Stock = require("./models/stockSchema")
+const Batches = require("./models/batchSchema")
 const {
   addNewStockItem,
   getAllStockItems,
@@ -23,21 +23,21 @@ const {
   getStockItem,
   addToLot,
   removeFromLot,
-  deleteLot
-} = require('./utils/stockUtils');
+  deleteLot,
+} = require("./utils/stockUtils")
 
-// Async function to connect to MongoDB and start the server
-const startServer = async () => {
-    await mongoose.connect("mongodb://localhost:27017/jbcDB", {
-      authSource: "admin",
-      user: process.env.user,
-      pass: process.env.pwd,
-    })
+// MongoDB connection and server start
+mongoose.connect("mongodb://localhost:27017/jbcDB", {
+    authSource: "admin",
+    user: process.env.user,
+    pass: process.env.pwd,
+  }).then(() => {
     console.log("Connected to MongoDB")
 
-    // Start the Express server
-    app.listen(port)
-}
-
-// Call the async function to start the server
-startServer()
+    // Start the Express server after successful DB connection
+    app.listen(port, () => {
+      console.log(`Server is running on http://localhost:${port}`)
+    })
+  }).catch((err) => {
+    console.error("Error connecting to MongoDB:", err)
+  })

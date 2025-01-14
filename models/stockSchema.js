@@ -1,5 +1,5 @@
 const mongoose = require('mongoose')
-const AutoIncrement = require('mongoose-sequence')(mongoose)
+// const AutoIncrement = require('mongoose-sequence')(mongoose)
 
 // Lot Schema
 const lotSchema = new mongoose.Schema({
@@ -14,8 +14,8 @@ const stockSchema = new mongoose.Schema({
 })
 
 // Add auto-increment to customId
-stockSchema.plugin(AutoIncrement, { inc_field: 'customId3' })
+// stockSchema.plugin(AutoIncrement, { inc_field: 'customId' })
 
 // Export the model
-const Stock = mongoose.model('Stock3', stockSchema)
+const Stock = mongoose.model('Stock', stockSchema)
 module.exports = Stock
