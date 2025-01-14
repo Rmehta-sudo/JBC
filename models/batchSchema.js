@@ -8,14 +8,15 @@ const rawMaterialSchema = new mongoose.Schema({
     added : {type : Date, default:Date.now()}, 
 })
 
-const batchScehma = new mongoose.Schema({
+const batchSchema = new mongoose.Schema({
+    batchno : {type : Number, require : true } ,
     batchname : String,
     numdrums : Number,
     drums    : [Number],
     rawMaterials: {type:[rawMaterialSchema], default : []},
-    comments : {type: String , default:" " },
-    completed: {type: Boolean, default:false},
-    sentdrums : [Number],
+    remarks : {type: String , default:" " },
+    completed: {type: [Boolean], default:false},
+    drumsDispatched : [Number],
     sentFully : {type:Boolean, default: false},
     totalWeight:{type:Number, default : 0}
 })

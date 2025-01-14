@@ -25,6 +25,17 @@ const {
   removeFromLot,
   deleteLot,
 } = require("./utils/stockUtils")
+const {
+    newBatch,
+    addMaterials,
+    addRemarks,
+    unsentBatches,
+    drums,
+    drumsCompleted,
+    drumsDispatched,
+    batchesInMonth,
+    viewBatch
+} = require('./utils/batchUtils')
 
 // MongoDB connection and server start
 mongoose.connect("mongodb://localhost:27017/jbcDB", {
