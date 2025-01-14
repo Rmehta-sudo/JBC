@@ -18,7 +18,7 @@ const mongoose = require('mongoose');
 
 // MongoDB connection
 // mongodb://myUserAdmin:abc123@localhost:27017/admin
-mongoose.connect("mongodb://localhost:27017/JBC", {
+mongoose.connect("mongodb://localhost:27017/jbcDB", {
     authSource: "admin",
     user: process.env.user,
     pass: process.env.pwd,
