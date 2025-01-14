@@ -1,0 +1,525 @@
+await addNewStockItem(Stock, "blue") 
+await addNewStockItem(Stock, "yellow") 
+await addNewStockItem(Stock, "red") 
+
+await addToLot(Stock,"yellow",101,1000) 
+await addToLot(Stock,"yellow",101,500) 
+await addToLot(Stock,"yellow",201,1000) 
+await addToLot(Stock,"yellow",301,1000) 
+
+await removeFromLot(Stock,"yellow",201,300) 
+
+await addToLot(Stock,"blue",101,300)
+await addToLot(Stock,"red",1,50)
+await removeFromLot(Stock,"red",1,20)
+await addToLot(Stock,"red",1,50)
+await newBatch(Batches,1,'batch1',3,[20,21,24],'this is the first batch made on jbc inventory system','10-01-2025')
+await newBatch(Batches,2,'batch1',3,[20,21,24],'this is the first batch made on jbc inventory system','10-01-2025')
+await addMaterials(Stock,Batches,2,["red","yellow"],[1,301],[30,200],"12-01-2025")
+await addMaterials(Stock,Batches,2,["blue","yellow"],[101,201],[50,100],"13-01-2025")
+await addMaterials(Stock,Batches,2,["blue","yellow"],[101,301],[50,100],"14-01-2025")
+console.log(await viewBatch(Batches,1))
+console.log(await viewBatch(Batches,2))
+
+
+
+
+// output
+
+Connected to MongoDB
+Server is running on http://localhost:3000
+Stock item added successfully!
+Stock item added successfully!
+Stock item added successfully!
+Adding lot 
+Adding qnty to lot 
+Adding lot 
+Adding lot 
+Removed qnty from lot
+Adding lot 
+Adding lot 
+Removed qnty from lot
+Adding qnty to lot 
+
+Batch added successfully!
+Removed qnty from lot
+Removed qnty from lot
+Removed qnty from lot
+Removed qnty from lot
+Removed qnty from lot
+Removed qnty from lot
+{
+  _id: new ObjectId('6786d3748f128e68d7407f45'),
+  batchno: 1,
+  batchname: 'batch1',
+  numdrums: 3,
+  drums: [ 20, 21, 24 ],
+  date: 2025-01-09T18:30:00.000Z,
+  remarks: 'this is the first batch made on jbc inventory system',
+  drumsCompleted: [],
+  drumsDispatched: [],
+  sentFully: false,
+  totalWeight: 0,
+  rawMaterials: [],
+  __v: 0
+}
+{
+  _id: new ObjectId('6786d3bac86d50caff02a622'),
+  batchno: 2,
+  batchname: 'batch1',
+  numdrums: 3,
+  drums: [ 20, 21, 24 ],
+  date: 2025-01-09T18:30:00.000Z,
+  remarks: 'this is the first batch made on jbc inventory system',
+  drumsCompleted: [],
+  drumsDispatched: [],
+  sentFully: false,
+  totalWeight: 530,
+  rawMaterials: [
+    {
+      stockname: 'red',
+      lotname: '1',
+      qnty: 30,
+      added: 2025-01-11T18:30:00.000Z,
+      _id: new ObjectId('6786d3bac86d50caff02a626')
+    },
+    {
+      stockname: 'yellow',
+      lotname: '301',
+      qnty: 200,
+      added: 2025-01-11T18:30:00.000Z,
+      _id: new ObjectId('6786d3bac86d50caff02a62a')
+    },
+    {
+      stockname: 'blue',
+      lotname: '101',
+      qnty: 50,
+      added: 2025-01-12T18:30:00.000Z,
+      _id: new ObjectId('6786d3bac86d50caff02a634')
+    },
+    {
+      stockname: 'yellow',
+      lotname: '201',
+      qnty: 100,
+      added: 2025-01-12T18:30:00.000Z,
+      _id: new ObjectId('6786d3bac86d50caff02a638')
+    },
+    {
+      stockname: 'blue',
+      lotname: '101',
+      qnty: 50,
+      added: 2025-01-13T18:30:00.000Z,
+      _id: new ObjectId('6786d3bbc86d50caff02a644')
+    },
+    {
+      stockname: 'yellow',
+      lotname: '301',
+      qnty: 100,
+      added: 2025-01-13T18:30:00.000Z,
+      _id: new ObjectId('6786d3bbc86d50caff02a648')
+    }
+  ],
+  __v: 3
+}
+
+
+
+
+
+
+
+
+
+
+
+
+//tests 2
+await addRemarks(Batches,1,"this is the first remark added to 1")
+await addRemarks(Batches,1,"this is the second remark added   to 1")
+await addRemarks(Batches,2,"this is the first remark added   to 2")
+console.log(await viewBatch(Batches,1))
+console.log(await viewBatch(Batches,2))
+
+console.log(await unsentBatches(Batches))
+sendBatch(Batches,1)
+console.log(await unsentBatches(Batches))
+sendBatch(Batches,2)
+console.log(await unsentBatches(Batches))
+console.log(await viewBatch(Batches,1))
+console.log(await drums(Batches,1))
+
+await drumsCompleted(Batches,1,[20,21])
+await drumsDispatched(Batches,1,[22,24])
+console.log(await viewBatch(Batches,1))
+console.log(await viewBatch(Batches,2))
+
+console.log(await batchesInMonth(Batches,1,2025))
+
+
+//output
+
+
+Connected to MongoDB
+Server is running on http://localhost:3000
+{
+  _id: new ObjectId('6786d3748f128e68d7407f45'),
+  batchno: 1,
+  batchname: 'batch1',
+  numdrums: 3,
+  drums: [ 20, 21, 24 ],
+  date: 2025-01-09T18:30:00.000Z,
+  remarks: 'this is the first batch made on jbc inventory system\n' +
+    'this is the first remark added to 1\n' +
+    'this is the second remark added   to 1\n' +
+    'this is the first remark added to 1\n' +
+    'this is the second remark added   to 1',
+  drumsCompleted: [],
+  drumsDispatched: [],
+  sentFully: true,
+  totalWeight: 0,
+  rawMaterials: [],
+  __v: 0
+}
+[ 20, 21, 24 ]
+^C
+rachitmehta@JarvisUbuntu:~/Desktop/my-stuff/web-dev/JBC-website/JBC$ node index.js
+Connected to MongoDB
+Server is running on http://localhost:3000
+{
+  _id: new ObjectId('6786d3748f128e68d7407f45'),
+  batchno: 1,
+  batchname: 'batch1',
+  numdrums: 3,
+  drums: [ 20, 21, 24 ],
+  date: 2025-01-09T18:30:00.000Z,
+  remarks: 'this is the first batch made on jbc inventory system\n' +
+    'this is the first remark added to 1\n' +
+    'this is the second remark added   to 1\n' +
+    'this is the first remark added to 1\n' +
+    'this is the second remark added   to 1',
+  drumsCompleted: [],
+  drumsDispatched: [],
+  sentFully: true,
+  totalWeight: 0,
+  rawMaterials: [],
+  __v: 0
+}
+{
+  _id: new ObjectId('6786d3bac86d50caff02a622'),
+  batchno: 2,
+  batchname: 'batch1',
+  numdrums: 3,
+  drums: [ 20, 21, 24 ],
+  date: 2025-01-09T18:30:00.000Z,
+  remarks: 'this is the first batch made on jbc inventory system\n' +
+    'this is the first remark added   to 2\n' +
+    'this is the first remark added   to 2',
+  drumsCompleted: [],
+  drumsDispatched: [],
+  sentFully: true,
+  totalWeight: 530,
+  rawMaterials: [
+    {
+      stockname: 'red',
+      lotname: '1',
+      qnty: 30,
+      added: 2025-01-11T18:30:00.000Z,
+      _id: new ObjectId('6786d3bac86d50caff02a626')
+    },
+    {
+      stockname: 'yellow',
+      lotname: '301',
+      qnty: 200,
+      added: 2025-01-11T18:30:00.000Z,
+      _id: new ObjectId('6786d3bac86d50caff02a62a')
+    },
+    {
+      stockname: 'blue',
+      lotname: '101',
+      qnty: 50,
+      added: 2025-01-12T18:30:00.000Z,
+      _id: new ObjectId('6786d3bac86d50caff02a634')
+    },
+    {
+      stockname: 'yellow',
+      lotname: '201',
+      qnty: 100,
+      added: 2025-01-12T18:30:00.000Z,
+      _id: new ObjectId('6786d3bac86d50caff02a638')
+    },
+    {
+      stockname: 'blue',
+      lotname: '101',
+      qnty: 50,
+      added: 2025-01-13T18:30:00.000Z,
+      _id: new ObjectId('6786d3bbc86d50caff02a644')
+    },
+    {
+      stockname: 'yellow',
+      lotname: '301',
+      qnty: 100,
+      added: 2025-01-13T18:30:00.000Z,
+      _id: new ObjectId('6786d3bbc86d50caff02a648')
+    }
+  ],
+  __v: 3
+}
+
+
+Connected to MongoDB
+Server is running on http://localhost:3000
+{
+  _id: new ObjectId('6786d3748f128e68d7407f45'),
+  batchno: 1,
+  batchname: 'batch1',
+  numdrums: 3,
+  drums: [ 20, 21, 24 ],
+  date: 2025-01-09T18:30:00.000Z,
+  remarks: 'this is the first batch made on jbc inventory system\n' +
+    'this is the first remark added to 1\n' +
+    'this is the second remark added   to 1\n' +
+    'this is the first remark added to 1\n' +
+    'this is the second remark added   to 1',
+  drumsCompleted: [ 20, 21 ],
+  drumsDispatched: [ 22, 24 ],
+  sentFully: true,
+  totalWeight: 0,
+  rawMaterials: [],
+  __v: 2
+}
+{
+  _id: new ObjectId('6786d3bac86d50caff02a622'),
+  batchno: 2,
+  batchname: 'batch1',
+  numdrums: 3,
+  drums: [ 20, 21, 24 ],
+  date: 2025-01-09T18:30:00.000Z,
+  remarks: 'this is the first batch made on jbc inventory system\n' +
+    'this is the first remark added   to 2\n' +
+    'this is the first remark added   to 2',
+  drumsCompleted: [],
+  drumsDispatched: [],
+  sentFully: true,
+  totalWeight: 530,
+  rawMaterials: [
+    {
+      stockname: 'red',
+      lotname: '1',
+      qnty: 30,
+      added: 2025-01-11T18:30:00.000Z,
+      _id: new ObjectId('6786d3bac86d50caff02a626')
+    },
+    {
+      stockname: 'yellow',
+      lotname: '301',
+      qnty: 200,
+      added: 2025-01-11T18:30:00.000Z,
+      _id: new ObjectId('6786d3bac86d50caff02a62a')
+    },
+    {
+      stockname: 'blue',
+      lotname: '101',
+      qnty: 50,
+      added: 2025-01-12T18:30:00.000Z,
+      _id: new ObjectId('6786d3bac86d50caff02a634')
+    },
+    {
+      stockname: 'yellow',
+      lotname: '201',
+      qnty: 100,
+      added: 2025-01-12T18:30:00.000Z,
+      _id: new ObjectId('6786d3bac86d50caff02a638')
+    },
+    {
+      stockname: 'blue',
+      lotname: '101',
+      qnty: 50,
+      added: 2025-01-13T18:30:00.000Z,
+      _id: new ObjectId('6786d3bbc86d50caff02a644')
+    },
+    {
+      stockname: 'yellow',
+      lotname: '301',
+      qnty: 100,
+      added: 2025-01-13T18:30:00.000Z,
+      _id: new ObjectId('6786d3bbc86d50caff02a648')
+    }
+  ],
+  __v: 3
+}
+^C
+rachitmehta@JarvisUbuntu:~/Desktop/my-stuff/web-dev/JBC-website/JBC$ node index.js
+Connected to MongoDB
+Server is running on http://localhost:3000
+{
+  _id: new ObjectId('6786d3748f128e68d7407f45'),
+  batchno: 1,
+  batchname: 'batch1',
+  numdrums: 3,
+  drums: [ 20, 21, 24 ],
+  date: 2025-01-09T18:30:00.000Z,
+  remarks: 'this is the first batch made on jbc inventory system\n' +
+    'this is the first remark added to 1\n' +
+    'this is the second remark added   to 1\n' +
+    'this is the first remark added to 1\n' +
+    'this is the second remark added   to 1',
+  drumsCompleted: [ 20, 21, 20, 21 ],
+  drumsDispatched: [ 22, 24, 22, 24 ],
+  sentFully: true,
+  totalWeight: 0,
+  rawMaterials: [],
+  __v: 4
+}
+{
+  _id: new ObjectId('6786d3bac86d50caff02a622'),
+  batchno: 2,
+  batchname: 'batch1',
+  numdrums: 3,
+  drums: [ 20, 21, 24 ],
+  date: 2025-01-09T18:30:00.000Z,
+  remarks: 'this is the first batch made on jbc inventory system\n' +
+    'this is the first remark added   to 2\n' +
+    'this is the first remark added   to 2',
+  drumsCompleted: [],
+  drumsDispatched: [],
+  sentFully: true,
+  totalWeight: 530,
+  rawMaterials: [
+    {
+      stockname: 'red',
+      lotname: '1',
+      qnty: 30,
+      added: 2025-01-11T18:30:00.000Z,
+      _id: new ObjectId('6786d3bac86d50caff02a626')
+    },
+    {
+      stockname: 'yellow',
+      lotname: '301',
+      qnty: 200,
+      added: 2025-01-11T18:30:00.000Z,
+      _id: new ObjectId('6786d3bac86d50caff02a62a')
+    },
+    {
+      stockname: 'blue',
+      lotname: '101',
+      qnty: 50,
+      added: 2025-01-12T18:30:00.000Z,
+      _id: new ObjectId('6786d3bac86d50caff02a634')
+    },
+    {
+      stockname: 'yellow',
+      lotname: '201',
+      qnty: 100,
+      added: 2025-01-12T18:30:00.000Z,
+      _id: new ObjectId('6786d3bac86d50caff02a638')
+    },
+    {
+      stockname: 'blue',
+      lotname: '101',
+      qnty: 50,
+      added: 2025-01-13T18:30:00.000Z,
+      _id: new ObjectId('6786d3bbc86d50caff02a644')
+    },
+    {
+      stockname: 'yellow',
+      lotname: '301',
+      qnty: 100,
+      added: 2025-01-13T18:30:00.000Z,
+      _id: new ObjectId('6786d3bbc86d50caff02a648')
+    }
+  ],
+  __v: 3
+}
+^C
+rachitmehta@JarvisUbuntu:~/Desktop/my-stuff/web-dev/JBC-website/JBC$ node index.js
+Connected to MongoDB
+Server is running on http://localhost:3000
+[]
+undefined
+^C
+rachitmehta@JarvisUbuntu:~/Desktop/my-stuff/web-dev/JBC-website/JBC$ node index.js
+Connected to MongoDB
+Server is running on http://localhost:3000
+[
+  {
+    _id: new ObjectId('6786d3748f128e68d7407f45'),
+    batchno: 1,
+    batchname: 'batch1',
+    numdrums: 3,
+    drums: [ 20, 21, 24 ],
+    date: 2025-01-09T18:30:00.000Z,
+    remarks: 'this is the first batch made on jbc inventory system\n' +
+      'this is the first remark added to 1\n' +
+      'this is the second remark added   to 1\n' +
+      'this is the first remark added to 1\n' +
+      'this is the second remark added   to 1',
+    drumsCompleted: [ 20, 21, 20, 21 ],
+    drumsDispatched: [ 22, 24, 22, 24 ],
+    sentFully: true,
+    totalWeight: 0,
+    rawMaterials: [],
+    __v: 4
+  },
+  {
+    _id: new ObjectId('6786d3bac86d50caff02a622'),
+    batchno: 2,
+    batchname: 'batch1',
+    numdrums: 3,
+    drums: [ 20, 21, 24 ],
+    date: 2025-01-09T18:30:00.000Z,
+    remarks: 'this is the first batch made on jbc inventory system\n' +
+      'this is the first remark added   to 2\n' +
+      'this is the first remark added   to 2',
+    drumsCompleted: [],
+    drumsDispatched: [],
+    sentFully: true,
+    totalWeight: 530,
+    rawMaterials: [ [Object], [Object], [Object], [Object], [Object], [Object] ],
+    __v: 3
+  }
+]
+undefined
+^C
+rachitmehta@JarvisUbuntu:~/Desktop/my-stuff/web-dev/JBC-website/JBC$ node index.js
+Connected to MongoDB
+Server is running on http://localhost:3000
+[
+  {
+    _id: new ObjectId('6786d3748f128e68d7407f45'),
+    batchno: 1,
+    batchname: 'batch1',
+    numdrums: 3,
+    drums: [ 20, 21, 24 ],
+    date: 2025-01-09T18:30:00.000Z,
+    remarks: 'this is the first batch made on jbc inventory system\n' +
+      'this is the first remark added to 1\n' +
+      'this is the second remark added   to 1\n' +
+      'this is the first remark added to 1\n' +
+      'this is the second remark added   to 1',
+    drumsCompleted: [ 20, 21, 20, 21 ],
+    drumsDispatched: [ 22, 24, 22, 24 ],
+    sentFully: true,
+    totalWeight: 0,
+    rawMaterials: [],
+    __v: 4
+  },
+  {
+    _id: new ObjectId('6786d3bac86d50caff02a622'),
+    batchno: 2,
+    batchname: 'batch1',
+    numdrums: 3,
+    drums: [ 20, 21, 24 ],
+    date: 2025-01-09T18:30:00.000Z,
+    remarks: 'this is the first batch made on jbc inventory system\n' +
+      'this is the first remark added   to 2\n' +
+      'this is the first remark added   to 2',
+    drumsCompleted: [],
+    drumsDispatched: [],
+    sentFully: true,
+    totalWeight: 530,
+    rawMaterials: [ [Object], [Object], [Object], [Object], [Object], [Object] ],
+    __v: 3
+  }
+]
+
+

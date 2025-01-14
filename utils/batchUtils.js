@@ -31,7 +31,7 @@ async function addMaterials(stockdb,batches,id,stocks,lots,quantities,date){
 
     let batch = await batches.findOne( { batchno : id })
 
-    for(let i = 0; i < materials.length; i++){
+    for(let i = 0; i < stocks.length; i++){
         batch.rawMaterials.push({
             stockname : stocks[i],
             lotname   : lots[i],
@@ -50,7 +50,9 @@ async function addRemarks(batches,id,remarks){
     id = String(id)
 
     let batch = await batches.findOne( { batchno : id })
-    batch.remarks.concat(remarks)
+    batch.remarks += "\n"
+    batch.remarks += remarks
+    console.log("remark added")
     await batch.save()
 }
 
@@ -60,24 +62,30 @@ async function unsentBatches(batches){
     return await batches.find({sentFully : false})
 }
 
+async function sendBatch(batches,id){
+    let batch = await batches.findOne({batchno : id})
+    batch.sentFully = true
+    await batch.save()
+}
 
 // Function to return all drums in a batch
 async function drums(batches,id){
-    return await batches.findOne({batchno : String(id)}).drums
+    const batch =  await batches.findOne({batchno : String(id)})
+    return batch.drums
 }
 
 
 // Function to mark drums in batches as completed
 async function drumsCompleted(batches,id,drums){
     let batch = await batches.findOne({batchno : String(id) })
-    batch.drumsCompleted.concat(drums)
+    batch.drumsCompleted = [...batch.drumsCompleted, ...drums]
     await batch.save()
 }
 
 // Function to mark drums in batches as dispatched
 async function drumsDispatched(batches,id,drums){
     let batch = await batches.findOne({batchno : String(id) })
-    batch.drumsDispatched.concat(drums)
+    batch.drumsDispatched = [...batch.drumsDispatched, ...drums]
     await batch.save()
 }
 
@@ -95,8 +103,8 @@ async function batchesInMonth(batches,month,year){
     return await batches.find({
         date: { $gte: startDate, $lte: endDate }
         })
-        .then(docs => console.log(docs))
-        .catch(err => console.error(err));
+        // .then(docs => console.log(docs))
+        // .catch(err => console.error(err));
 
 }
 
@@ -113,5 +121,6 @@ module.exports = {
     drumsCompleted,
     drumsDispatched,
     batchesInMonth,
-    viewBatch
+    viewBatch,
+    sendBatch,
 }
