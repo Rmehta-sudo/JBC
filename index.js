@@ -31,13 +31,14 @@ mongoose.connect("mongodb://localhost:27017/jbcDB", {
     authSource: "admin",
     user: process.env.user,
     pass: process.env.pwd,
-  }).then(() => {
+}).then(() => {
     console.log("Connected to MongoDB")
 
     // Start the Express server after successful DB connection
     app.listen(port, () => {
       console.log(`Server is running on http://localhost:${port}`)
     })
-  }).catch((err) => {
+}).catch((err) => {
     console.error("Error connecting to MongoDB:", err)
-  })
+})
+
