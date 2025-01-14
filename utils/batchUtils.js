@@ -1,4 +1,5 @@
 const moment = require('moment')
+const {removeFromLot} = require("./stockUtils")
 
 // Function to create new batch
 async function newBatch(batches,batchno,batchname,numdrums,drums,remarks,date){
@@ -24,7 +25,7 @@ async function newBatch(batches,batchno,batchname,numdrums,drums,remarks,date){
 }
 
 // Function to add materials to existing batch
-async function addMaterials(batches,id,stocks,lots,quantities,date){
+async function addMaterials(stockdb,batches,id,stocks,lots,quantities,date){
     id = String(id)
     let mongoDate = moment(date, "DD-MM-YYYY").toDate()
 
@@ -37,6 +38,8 @@ async function addMaterials(batches,id,stocks,lots,quantities,date){
             qnty   : quantities[i],
             added : mongoDate,
         })
+        await removeFromLot(stockdb , stocks[i],lots[i] , quantities[i])
+
     }
     await batch.save()
 }
