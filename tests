@@ -1,0 +1,379 @@
+// Perform database operations
+    await addNewStockItem(Stock, "blue") 
+    console.log(await getAllStockItems(Stock)) 
+
+    await addNewStockItem(Stock, "yellow") 
+    console.log(await getAllStockItems(Stock)) 
+
+    await addToLot(Stock,"yellow",101,1000) 
+    console.log(await getAllStockItems(Stock)) 
+
+    await addToLot(Stock,"yellow",101,500) 
+    console.log(await getAllStockItems(Stock)) 
+
+    await addToLot(Stock,"yellow",201,1000) 
+    console.log(await getAllStockItems(Stock)) 
+
+    await removeFromLot(Stock,"yellow",201,300) 
+    console.log(await getAllStockItems(Stock)) 
+
+    await addToLot(Stock,"blue",500,303) 
+    console.log(await getAllStockItems(Stock)) 
+    
+    console.log(await getStockItem(Stock,"yellow"))
+
+    console.log(await getStockItem(Stock,"blue"))
+
+    console.log(await getStockItem(Stock,"red"))
+    await addToLot(Stock,"yellow",201,300)
+    const yellow = await getStockItem(Stock,"yellow")
+
+    console.log(yellow)
+
+
+// output 
+
+ node index.js
+Connected to MongoDB
+Stock item added successfully!
+Returning all items 
+[
+  {
+    _id: new ObjectId('67867ced6dc09d9b6ebd9a15'),
+    name: 'blue',
+    lots: [],
+    customId3: 1,
+    __v: 0
+  }
+]
+Stock item added successfully!
+Returning all items 
+[
+  {
+    _id: new ObjectId('67867ced6dc09d9b6ebd9a15'),
+    name: 'blue',
+    lots: [],
+    customId3: 1,
+    __v: 0
+  },
+  {
+    _id: new ObjectId('67867ced6dc09d9b6ebd9a1a'),
+    name: 'yellow',
+    lots: [],
+    customId3: 2,
+    __v: 0
+  }
+]
+Adding lot 
+Returning all items 
+[
+  {
+    _id: new ObjectId('67867ced6dc09d9b6ebd9a15'),
+    name: 'blue',
+    lots: [],
+    customId3: 1,
+    __v: 0
+  },
+  {
+    _id: new ObjectId('67867ced6dc09d9b6ebd9a1a'),
+    name: 'yellow',
+    lots: [ [Object] ],
+    customId3: 2,
+    __v: 1
+  }
+]
+Adding qnty to lot 
+Returning all items 
+[
+  {
+    _id: new ObjectId('67867ced6dc09d9b6ebd9a15'),
+    name: 'blue',
+    lots: [],
+    customId3: 1,
+    __v: 0
+  },
+  {
+    _id: new ObjectId('67867ced6dc09d9b6ebd9a1a'),
+    name: 'yellow',
+    lots: [ [Object] ],
+    customId3: 2,
+    __v: 1
+  }
+]
+Adding lot 
+Returning all items 
+[
+  {
+    _id: new ObjectId('67867ced6dc09d9b6ebd9a15'),
+    name: 'blue',
+    lots: [],
+    customId3: 1,
+    __v: 0
+  },
+  {
+    _id: new ObjectId('67867ced6dc09d9b6ebd9a1a'),
+    name: 'yellow',
+    lots: [ [Object], [Object] ],
+    customId3: 2,
+    __v: 2
+  }
+]
+Removed qnty from lot
+Returning all items 
+[
+  {
+    _id: new ObjectId('67867ced6dc09d9b6ebd9a15'),
+    name: 'blue',
+    lots: [],
+    customId3: 1,
+    __v: 0
+  },
+  {
+    _id: new ObjectId('67867ced6dc09d9b6ebd9a1a'),
+    name: 'yellow',
+    lots: [ [Object], [Object] ],
+    customId3: 2,
+    __v: 2
+  }
+]
+Adding lot 
+Returning all items 
+[
+  {
+    _id: new ObjectId('67867ced6dc09d9b6ebd9a15'),
+    name: 'blue',
+    lots: [ [Object] ],
+    customId3: 1,
+    __v: 1
+  },
+  {
+    _id: new ObjectId('67867ced6dc09d9b6ebd9a1a'),
+    name: 'yellow',
+    lots: [ [Object], [Object] ],
+    customId3: 2,
+    __v: 2
+  }
+]
+Returning single item
+{
+  _id: new ObjectId('67867ced6dc09d9b6ebd9a1a'),
+  name: 'yellow',
+  lots: [
+    {
+      lotname: '101',
+      qnty: 1500,
+      _id: new ObjectId('67867ced6dc09d9b6ebd9a20')
+    },
+    {
+      lotname: '201',
+      qnty: 700,
+      _id: new ObjectId('67867ced6dc09d9b6ebd9a2b')
+    }
+  ],
+  customId3: 2,
+  __v: 2
+}
+Returning single item
+{
+  _id: new ObjectId('67867ced6dc09d9b6ebd9a15'),
+  name: 'blue',
+  lots: [
+    {
+      lotname: '500',
+      qnty: 303,
+      _id: new ObjectId('67867ced6dc09d9b6ebd9a38')
+    }
+  ],
+  customId3: 1,
+  __v: 1
+}
+Returning single item
+null
+Adding qnty to lot 
+Returning single item
+{
+  _id: new ObjectId('67867ced6dc09d9b6ebd9a1a'),
+  name: 'yellow',
+  lots: [
+    {
+      lotname: '101',
+      qnty: 1500,
+      _id: new ObjectId('67867ced6dc09d9b6ebd9a20')
+    },
+    {
+      lotname: '201',
+      qnty: 1000,
+      _id: new ObjectId('67867ced6dc09d9b6ebd9a2b')
+    }
+  ],
+  customId3: 2,
+  __v: 2
+}
+
+
+
+
+
+
+// set 2 tests  -- delete functions
+
+await deleteLot(Stock,"red",201)
+await deleteLot(Stock,"yellow",201)
+console.log(await getAllStockItems(Stock))
+console.log(await getStockItem(Stock,"blue"))
+await deleteLot(Stock,"blue",500)
+console.log(await getAllStockItems(Stock))
+await deleteStockItem(Stock,"blue")
+console.log(await getAllStockItems(Stock))
+
+
+// output 
+
+Connected to MongoDB
+null
+stock doesnt exist
+{
+  _id: new ObjectId('6786869536610ee0d64d502b'),
+  name: 'yellow',
+  lots: [
+    {
+      lotname: '101',
+      qnty: 1500,
+      _id: new ObjectId('6786870b2495e0ddbfefc2c3')
+    },
+    {
+      lotname: '201',
+      qnty: 1000,
+      _id: new ObjectId('6786870b2495e0ddbfefc2ce')
+    }
+  ],
+  customId3: 8,
+  __v: 7
+}
+hi
+[
+  {
+    lotname: '101',
+    qnty: 1500,
+    _id: new ObjectId('6786870b2495e0ddbfefc2c3')
+  },
+  {
+    lotname: '201',
+    qnty: 1000,
+    _id: new ObjectId('6786870b2495e0ddbfefc2ce')
+  }
+]
+[
+  {
+    lotname: '101',
+    qnty: 1500,
+    _id: new ObjectId('6786870b2495e0ddbfefc2c3')
+  }
+]
+Removed lot
+Returning all items 
+[
+  {
+    _id: new ObjectId('6786869536610ee0d64d502b'),
+    name: 'yellow',
+    lots: [ [Object] ],
+    customId3: 8,
+    __v: 8
+  },
+  {
+    _id: new ObjectId('6786870b2495e0ddbfefc2b7'),
+    name: 'blue',
+    lots: [ [Object] ],
+    customId3: 9,
+    __v: 1
+  },
+  {
+    _id: new ObjectId('6786870b2495e0ddbfefc2bd'),
+    name: 'yellow',
+    lots: [],
+    customId3: 10,
+    __v: 0
+  }
+]
+Returning single item
+{
+  _id: new ObjectId('6786870b2495e0ddbfefc2b7'),
+  name: 'blue',
+  lots: [
+    {
+      lotname: '500',
+      qnty: 303,
+      _id: new ObjectId('6786870b2495e0ddbfefc2db')
+    }
+  ],
+  customId3: 9,
+  __v: 1
+}
+{
+  _id: new ObjectId('6786870b2495e0ddbfefc2b7'),
+  name: 'blue',
+  lots: [
+    {
+      lotname: '500',
+      qnty: 303,
+      _id: new ObjectId('6786870b2495e0ddbfefc2db')
+    }
+  ],
+  customId3: 9,
+  __v: 1
+}
+hi
+[
+  {
+    lotname: '500',
+    qnty: 303,
+    _id: new ObjectId('6786870b2495e0ddbfefc2db')
+  }
+]
+[]
+Removed lot
+Returning all items 
+[
+  {
+    _id: new ObjectId('6786869536610ee0d64d502b'),
+    name: 'yellow',
+    lots: [ [Object] ],
+    customId3: 8,
+    __v: 8
+  },
+  {
+    _id: new ObjectId('6786870b2495e0ddbfefc2b7'),
+    name: 'blue',
+    lots: [],
+    customId3: 9,
+    __v: 2
+  },
+  {
+    _id: new ObjectId('6786870b2495e0ddbfefc2bd'),
+    name: 'yellow',
+    lots: [],
+    customId3: 10,
+    __v: 0
+  }
+]
+Item deleted successfully
+Returning all items 
+[
+  {
+    _id: new ObjectId('6786869536610ee0d64d502b'),
+    name: 'yellow',
+    lots: [ [Object] ],
+    customId3: 8,
+    __v: 8
+  },
+  {
+    _id: new ObjectId('6786870b2495e0ddbfefc2bd'),
+    name: 'yellow',
+    lots: [],
+    customId3: 10,
+    __v: 0
+  }
+]
+
+
+

@@ -1,35 +1,43 @@
-express = require("express")
-app = express()
-port = 3000
- 
-// use netstat -an | grep 3000 to check whether its free or not
+const express = require("express");
+const app = express();
+const port = 3000;
 
-app.set('views', __dirname +  '/views') // Set the correct path for views directory
-app.set('view engine','ejs')
-app.use(express.static('public')) // for css or js files
+require('dotenv').config();
 
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json())
-
-require('dotenv').config()
-
-// setup the db
 const mongoose = require('mongoose');
+const AutoIncrement = require('mongoose-sequence')(mongoose);
 
-// MongoDB connection
-// mongodb://myUserAdmin:abc123@localhost:27017/admin
-mongoose.connect("mongodb://localhost:27017/jbcDB", {
-    authSource: "admin",
-    user: process.env.user,
-    pass: process.env.pwd,
-});
-mongoose.connection.once('open', () => {
-  console.log("Connected to MongoDB")
-}) // to check for the initial connection
+// Middleware setup
+app.set('views', __dirname + '/views'); // Set the correct path for views directory
+app.set('view engine', 'ejs');
+app.use(express.static('public')); // For CSS or JS files
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 
+// Import models and utilities
+const Stock = require('./models/stockSchema');
+const {
+  addNewStockItem,
+  getAllStockItems,
+  deleteStockItem,
+  getStockItem,
+  addToLot,
+  removeFromLot,
+  deleteLot
+} = require('./utils/stockUtils');
 
+// Async function to connect to MongoDB and start the server
+const startServer = async () => {
+    await mongoose.connect("mongodb://localhost:27017/jbcDB", {
+      authSource: "admin",
+      user: process.env.user,
+      pass: process.env.pwd,
+    })
+    console.log("Connected to MongoDB")
 
+    // Start the Express server
+    app.listen(port)
+}
 
-app.listen(port,()=>{
-    console.log("Connected to localhost:3000")  
-})
+// Call the async function to start the server
+startServer()
