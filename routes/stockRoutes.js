@@ -16,7 +16,7 @@ router.post('/addNewStockItem', async (req,res) => {
 })
 
 router.get('/getAllStockItems', async (req,res) => {
-    res.render(await getAllStockItems(Stock))
+    res.send(await getAllStockItems(Stock))
 })
 
 router.post('/deleteStockItem', async (req,res) => {
@@ -24,7 +24,7 @@ router.post('/deleteStockItem', async (req,res) => {
 })
 
 router.get('/getStockItem', async (req,res) => {
-    rres.render(await getStockItem(Stock,req.query.stockname))
+    res.send(await getStockItem(Stock,req.query.stockname))
 })
 
 router.post('/addToLot', async (req,res) => {
