@@ -1,6 +1,7 @@
 express = require('express')
 router = express.Router()
 const Batches = require('../models/batchSchema')
+const Stock = require('../models/stockSchema')
 const {
     newBatch,
     addMaterials,
@@ -17,22 +18,28 @@ const {
 
 
 router.post('/newBatch', async (req,res) => {
+    let data = req.body
+    await newBatch(Batches,data.batchno,data.batchname,data.numdrums,data.drums,data.remarks,data.date)
     res.render('index')
 })
 
 router.post('/addMaterials', async (req,res) => {
+    let data = req.body
+    await addMaterials(Stock,Batches,data.id,data.stocks,data.lots,data.quantities,data.date)
     res.render('index')
 })
 
 router.post('/addRemarks', async (req,res) => {
+    await addRemarks(Batches,req.body.id,req.body.remarks)
     res.render('index')
 })
 
-router.post('/unsentBatches', async (req,res) => {
-    res.render('index')
+router.get('/unsentBatches', async (req,res) => {
+    res.send(await unsentBatches(Batches))
 })
 
 router.post('/sendBatch', async (req,res) => {
+    await sendBatch(Batches,req.body.id)
     res.render('index')
 })
 
@@ -41,10 +48,12 @@ router.get('/drums', async (req,res) => {
 })
 
 router.post('/drumsCompleted', async (req,res) => {
+    await drumsCompleted(Batches,req.body.drums)
     res.render('index')
 })
 
 router.post('/drumsDispatched', async (req,res) => {
+    await drumsDispatched(Batches,req.body.drums)
     res.render('index')
 })
 

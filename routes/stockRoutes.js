@@ -12,7 +12,8 @@ const {
 } = require("../utils/stockUtils")
 
 router.post('/addNewStockItem', async (req,res) => {
-    res.render('index')
+    await addNewStockItem(Stock,req.body.stockname)
+    res.redirect('index')
 })
 
 router.get('/getAllStockItems', async (req,res) => {
@@ -20,6 +21,7 @@ router.get('/getAllStockItems', async (req,res) => {
 })
 
 router.post('/deleteStockItem', async (req,res) => {
+    await deleteStockItem(Stock,req.body.stockname)
     res.render('index')
 })
 
@@ -28,14 +30,17 @@ router.get('/getStockItem', async (req,res) => {
 })
 
 router.post('/addToLot', async (req,res) => {
+    await addToLot(Stock,req.body.stockname,req.body.lotname,req.body.qnty)
     res.render('index')
 })
 
 router.post('/removeFromLot', async (req,res) => {
+    await removeFromLot(Stock,req.body.stockname,req.body.lotname,req.body.qnty)
     res.render('index')
 })
 
 router.post('/deleteLot', async (req,res) => {
+    await deleteLot(Stock, req.body.stockname,req.body.lotname)
     res.render('index')
 })
 module.exports = router

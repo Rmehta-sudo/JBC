@@ -41,10 +41,14 @@ const batchRoutes = require('./routes/batchRoutes')
 app.use('/stocks',stockRoutes)
 app.use('/batches',batchRoutes)
 
-app.get('/batches',async (req,res)=>{
+app.get('/',async(req,res)=>{
+    res.render('index')
+})
+
+app.get('/getBatches',async (req,res)=>{
     res.render('batches')
 })
 
-app.get('/stock',async (req,res)=>{
+app.get('/getStock',async (req,res)=>{
     res.render('stock')
 })
