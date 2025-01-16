@@ -3,7 +3,9 @@ const mongoose = require("mongoose")
 const dotenv = require("dotenv")
 
 const app = express()
-const port = 3000
+const PORT = process.env.PORT || 3000;
+const MONGO_URI = process.env.MONGO_URI;
+
 dotenv.config()
 
 
@@ -18,7 +20,8 @@ app.use(express.json())
 
 // MongoDB connection and server start
 // to start use ::: sudo systemctl start mongod
-mongoose.connect("mongodb://localhost:27017/jbcDB", {
+// "mongodb://localhost:27017/jbcDB"
+mongoose.connect(MONGO_URI, {
     authSource: "admin",
     user: process.env.user,
     pass: process.env.pwd,
@@ -26,9 +29,7 @@ mongoose.connect("mongodb://localhost:27017/jbcDB", {
     console.log("Connected to MongoDB")
 
     // Start the Express server after successful DB connection
-    app.listen(port, () => {
-      console.log(`Server is running on http://localhost:${port}`)
-    })
+    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 }).catch((err) => {
     console.error("Error connecting to MongoDB:", err)
 })
