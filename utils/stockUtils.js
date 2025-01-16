@@ -96,6 +96,7 @@ async function removeFromLot(stockmodel,stockname,lotname,qnty){
     lotname = String(lotname)
     try{
         let stock = await stockmodel.findOne({name:stockname})
+        console.log(stockname,stock)
         let lot = stock.lots.find(lot => lot.lotname === lotname)
 
         if(!lot){

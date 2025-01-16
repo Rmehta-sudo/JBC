@@ -13,7 +13,7 @@ const {
 
 router.post('/addNewStockItem', async (req,res) => {
     await addNewStockItem(Stock,req.body.stockname)
-    res.render('index')
+    res.render('stock')
 })
 
 router.get('/getAllStockItems', async (req,res) => {
@@ -22,7 +22,7 @@ router.get('/getAllStockItems', async (req,res) => {
 
 router.post('/deleteStockItem', async (req,res) => {
     await deleteStockItem(Stock,req.body.stockname)
-    res.render('index')
+    res.render('stock')
 })
 
 router.get('/getStockItem', async (req,res) => {
@@ -31,16 +31,16 @@ router.get('/getStockItem', async (req,res) => {
 
 router.post('/addToLot', async (req,res) => {
     await addToLot(Stock,req.body.stockname,req.body.lotname,req.body.qnty)
-    res.render('index')
+    res.render('stock')
 })
 
 router.post('/removeFromLot', async (req,res) => {
     await removeFromLot(Stock,req.body.stockname,req.body.lotname,req.body.qnty)
-    res.render('index')
+    res.render('stock')
 })
 
 router.post('/deleteLot', async (req,res) => {
     await deleteLot(Stock, req.body.stockname,req.body.lotname)
-    res.render('index')
+    res.render('stock')
 })
 module.exports = router

@@ -29,22 +29,27 @@ async function newBatch(batches,batchno,batchname,numdrums,drums,remarks,date){
 async function addMaterials(stockdb,batches,id,stocks,lots,quantities,date){
     id = String(id)
     // let mongoDate = moment(date, "DD-MM-YYYY").toDate()
-    stocks = stocks.split(',').map(Number)
-    lots = lots.split(',').map(Number)
-    quantities = quantities.split(',').map(Number)
+    let STOCKS = stocks.split(',').map(item => item.trim())
+    let LOTS = lots.split(',').map(item => item.trim())
+    let QNTY = quantities.split(',').map(Number)
     let batch = await batches.findOne( { batchno : id })
 
-    for(let i = 0; i < stocks.length; i++){
+    for(let i = 0; i < STOCKS.length; i++){
         batch.rawMaterials.push({
-            stockname : stocks[i],
-            lotname   : lots[i],
-            qnty   : quantities[i],
+            stockname : STOCKS[i],
+            lotname   : LOTS[i],
+            qnty   : QNTY[i],
             added : date,
         })
-        await removeFromLot(stockdb , stocks[i],lots[i] , quantities[i])
+        await removeFromLot(stockdb , STOCKS[i],LOTS[i] , QNTY[i])
 
     }
-    await batch.save()
+    try {
+        await newBatch.save()
+        console.log('Materials added successfully!')
+    } catch (error) {
+        console.error('Error adding Materials :', error)
+    }
 }
 
 
@@ -55,8 +60,8 @@ async function addRemarks(batches,id,remarks){
     let batch = await batches.findOne( { batchno : id })
     batch.remarks += "\n"
     batch.remarks += remarks
-    console.log("remark added")
     await batch.save()
+    console.log("remark added")
 }
 
 
