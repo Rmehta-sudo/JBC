@@ -13,7 +13,7 @@ const {
 
 router.post('/addNewStockItem', async (req,res) => {
     await addNewStockItem(Stock,req.body.stockname)
-    res.redirect('index')
+    res.render('index')
 })
 
 router.get('/getAllStockItems', async (req,res) => {

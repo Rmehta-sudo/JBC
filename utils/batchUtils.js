@@ -5,7 +5,8 @@ const {removeFromLot} = require("./stockUtils")
 async function newBatch(batches,batchno,batchname,numdrums,drums,remarks,date){
     batchname = String(batchname)
     batchno = String(batchno)
-    let mongoDate = moment(date, "DD-MM-YYYY").toDate()
+    // let mongoDate = moment(date, "DD-MM-YYYY").toDate()
+    drums = drums.split(',').map(Number)
 
     const newBatch = new batches({
         batchno : batchno,
@@ -13,7 +14,7 @@ async function newBatch(batches,batchno,batchname,numdrums,drums,remarks,date){
         numdrums : numdrums,
         drums : drums ,
         remarks : remarks,
-        date : mongoDate,
+        date : date,
     })
 
     try {
@@ -27,8 +28,10 @@ async function newBatch(batches,batchno,batchname,numdrums,drums,remarks,date){
 // Function to add materials to existing batch
 async function addMaterials(stockdb,batches,id,stocks,lots,quantities,date){
     id = String(id)
-    let mongoDate = moment(date, "DD-MM-YYYY").toDate()
-
+    // let mongoDate = moment(date, "DD-MM-YYYY").toDate()
+    stocks = stocks.split(',').map(Number)
+    lots = lots.split(',').map(Number)
+    quantities = quantities.split(',').map(Number)
     let batch = await batches.findOne( { batchno : id })
 
     for(let i = 0; i < stocks.length; i++){
@@ -36,7 +39,7 @@ async function addMaterials(stockdb,batches,id,stocks,lots,quantities,date){
             stockname : stocks[i],
             lotname   : lots[i],
             qnty   : quantities[i],
-            added : mongoDate,
+            added : date,
         })
         await removeFromLot(stockdb , stocks[i],lots[i] , quantities[i])
 
@@ -77,6 +80,7 @@ async function drums(batches,id){
 
 // Function to mark drums in batches as completed
 async function drumsCompleted(batches,id,drums){
+    drums = drums.split(',').map(Number)
     let batch = await batches.findOne({batchno : String(id) })
     batch.drumsCompleted = [...batch.drumsCompleted, ...drums]
     await batch.save()
@@ -84,6 +88,7 @@ async function drumsCompleted(batches,id,drums){
 
 // Function to mark drums in batches as dispatched
 async function drumsDispatched(batches,id,drums){
+    drums = drums.split(',').map(Number)
     let batch = await batches.findOne({batchno : String(id) })
     batch.drumsDispatched = [...batch.drumsDispatched, ...drums]
     await batch.save()
@@ -99,7 +104,7 @@ async function batchesInMonth(batches,month,year){
     }
         const startDate = new Date(datestring + "-01");
         const endDate = new Date(datestring + "-31");
-
+    
     return await batches.find({
         date: { $gte: startDate, $lte: endDate }
         })

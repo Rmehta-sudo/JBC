@@ -20,7 +20,7 @@ const {
 router.post('/newBatch', async (req,res) => {
     let data = req.body
     await newBatch(Batches,data.batchno,data.batchname,data.numdrums,data.drums,data.remarks,data.date)
-    res.render('index')
+    res.redirect('/')
 })
 
 router.post('/addMaterials', async (req,res) => {
@@ -48,17 +48,19 @@ router.get('/drums', async (req,res) => {
 })
 
 router.post('/drumsCompleted', async (req,res) => {
-    await drumsCompleted(Batches,req.body.drums)
+    await drumsCompleted(Batches,req.body.id,req.body.drums)
     res.render('index')
 })
 
 router.post('/drumsDispatched', async (req,res) => {
-    await drumsDispatched(Batches,req.body.drums)
+    await drumsDispatched(Batches,req.body.id,req.body.drums)
     res.render('index')
 })
 
 router.get('/batchesInMonth', async (req,res) => {
-    res.send(await batchesInMonth(Batches,req.query.month,req.query.year))
+    data = await batchesInMonth(Batches,req.query.month,req.query.year)
+    console.log(data)
+    res.send(data)
 })
 
 router.get('/viewBatch', async (req,res) => {

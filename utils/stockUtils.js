@@ -60,6 +60,7 @@ async function getStockItem(stockmodel,stockname){
 
 // add to a particular lot , create if it doesnt exits
 async function addToLot(stockmodel,stockname,lotname,qnty){
+    qnty = parseInt(qnty)
     lotname = String(lotname)
     try{
         let stock = await stockmodel.findOne({name:stockname})
@@ -91,6 +92,7 @@ async function addToLot(stockmodel,stockname,lotname,qnty){
 
 // subtract from a particular lot
 async function removeFromLot(stockmodel,stockname,lotname,qnty){
+    qnty = parseInt(qnty)
     lotname = String(lotname)
     try{
         let stock = await stockmodel.findOne({name:stockname})
